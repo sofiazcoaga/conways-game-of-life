@@ -21,7 +21,7 @@ impl Square {
         let x_equal = x.eq(&self.start_x);
         let cond_1 = (x_minus_len || x_plus_len) && (y_equal || y_minus_len || y_plus_len);
         let cond_2 = x_equal && (y_minus_len || y_plus_len);
-        (cond_1 || cond_2) || square.alive
+        (cond_1 || cond_2) && square.alive
     }
 }
 
@@ -50,4 +50,18 @@ fn generate_squares(screen_width: f32, screen_height: f32) -> Vec<Square> {
         }
     }
     squares
+}
+
+// Function to update current cells state (basically if they remain alive or not)
+fn update_squares(squares: &mut Vec<Square>) {
+    let squares_reference = squares.clone();
+    for s in squares {
+        // Obtain previously alive neighbours
+        let neighbors_amount = squares_reference.iter().filter(|x| s.is_adjacent_and_alive(x)).count();
+        match neighbors_amount {
+            0..2 => s.alive = false, // Less than two alive neighbours -> cell dies
+            2..=3 => s.alive = true, // Two or three alive neighbours -> cell lives 
+            4.. => s.alive = false, // More than three alive neighbours -> cell dies
+        }
+    }
 }
