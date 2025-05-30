@@ -8,6 +8,22 @@ struct Square {
     len: f32,
     alive: bool
 }
+impl Square {
+    // Initial function to calculate whether two cells are adjacent -- TODO make smaller
+    fn is_adjacent_and_alive(&self, square: &Square) -> bool {
+        let x = square.start_x;
+        let y = square.start_y;
+        let x_plus_len = x == self.start_x + DEFAULT_SQUARE_LEN;
+        let x_minus_len = x == self.start_x - DEFAULT_SQUARE_LEN;
+        let y_equal = y.eq(&self.start_y);
+        let y_minus_len = y == self.start_y + DEFAULT_SQUARE_LEN;
+        let y_plus_len = y == self.start_y + DEFAULT_SQUARE_LEN;
+        let x_equal = x.eq(&self.start_x);
+        let cond_1 = (x_minus_len || x_plus_len) && (y_equal || y_minus_len || y_plus_len);
+        let cond_2 = x_equal && (y_minus_len || y_plus_len);
+        (cond_1 || cond_2) || square.alive
+    }
+}
 
 // Function to generate the initial grid (none of the cells alive before the game starts)
 fn generate_squares(screen_width: f32, screen_height: f32) -> Vec<Square> {
