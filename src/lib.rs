@@ -17,17 +17,13 @@ impl Cell {
     }
     // Initial function to calculate whether two cells are adjacent -- TODO make smaller
     pub fn is_adjacent(&self, cell: &Cell) -> bool {
-        let x = cell.start_x;
-        let y = cell.start_y;
-        let x_plus_len = x == self.start_x + DEFAULT_CELL_LEN;
-        let x_minus_len = x == self.start_x - DEFAULT_CELL_LEN;
-        let y_equal = y.eq(&self.start_y);
-        let y_minus_len = y == self.start_y - DEFAULT_CELL_LEN;
-        let y_plus_len = y == self.start_y + DEFAULT_CELL_LEN;
-        let x_equal = x.eq(&self.start_x);
-        let cond_1 = (x_minus_len || x_plus_len) && (y_equal || y_minus_len || y_plus_len);
-        let cond_2 = x_equal && (y_minus_len || y_plus_len);
-        cond_1 || cond_2
+        // This is Pythagoras which finds the distance from a cell's start
+        // point to another cell's start point that is diagonally placed
+        let max_allowed_distance = (DEFAULT_CELL_LEN.powi(2) * 2.0).sqrt();
+        // Calculates the distance between the two cells starting points
+        let distance = ((cell.x() - self.x()).powi(2) + (cell.y() - self.y()).powi(2)).sqrt();
+        // Distance can either be the max distance or the default edge len if the adjacent cell is not diagonally placed
+        distance.eq(&DEFAULT_CELL_LEN) || distance.eq(&max_allowed_distance)
     }
 
     pub fn is_alive(&self) -> bool {
