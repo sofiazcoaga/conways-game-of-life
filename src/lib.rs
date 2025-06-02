@@ -27,8 +27,7 @@ impl Cell {
         let x_equal = x.eq(&self.start_x);
         let cond_1 = (x_minus_len || x_plus_len) && (y_equal || y_minus_len || y_plus_len);
         let cond_2 = x_equal && (y_minus_len || y_plus_len);
-        let result = cond_1 || cond_2;
-        result
+        cond_1 || cond_2
     }
 
     pub fn is_alive(&self) -> bool {
