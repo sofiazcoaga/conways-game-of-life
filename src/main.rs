@@ -15,7 +15,7 @@ async fn main() {
                 "Choose some squares and press ENTER to start",
                 50.,
                 50.,
-                40.,
+                30.,
                 BLACK,
             );
 
