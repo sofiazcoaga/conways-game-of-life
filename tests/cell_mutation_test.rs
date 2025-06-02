@@ -31,52 +31,57 @@ fn update_cells_grid_test() {
     |x| |x|                     | |x| |
     | |x| |  --> should become  | |x|x|
     | | |x|                     | | | |
+
+    Also for reference:
+    |0|1|2|
+    |3|4|5|   (cell index)
+    |6|7|8|
      */
 
     // first line
-    let cell_1 = Cell::new(0., 0., true);
-    let cell_2 = Cell::new(cell_1.x() + DEFAULT_CELL_LEN, cell_1.y(), false);
-    let cell_3 = Cell::new(cell_1.x() + DEFAULT_CELL_LEN * 2., cell_1.y(), true);
+    let cell_0 = Cell::new(0., 0., true);
+    let cell_1 = Cell::new(cell_0.x() + DEFAULT_CELL_LEN, cell_0.y(), false);
+    let cell_2 = Cell::new(cell_0.x() + DEFAULT_CELL_LEN * 2., cell_0.y(), true);
 
     // second line
-    let cell_4 = Cell::new(cell_1.x(), cell_1.y() + DEFAULT_CELL_LEN, false);
-    let cell_5 = Cell::new(
-        cell_1.x() + DEFAULT_CELL_LEN,
-        cell_1.y() + DEFAULT_CELL_LEN,
+    let cell_3 = Cell::new(cell_0.x(), cell_0.y() + DEFAULT_CELL_LEN, false);
+    let cell_4 = Cell::new(
+        cell_0.x() + DEFAULT_CELL_LEN,
+        cell_0.y() + DEFAULT_CELL_LEN,
         true,
     );
-    let cell_6 = Cell::new(
-        cell_1.x() + 2. * DEFAULT_CELL_LEN,
-        cell_1.y() + DEFAULT_CELL_LEN,
+    let cell_5 = Cell::new(
+        cell_0.x() + 2. * DEFAULT_CELL_LEN,
+        cell_0.y() + DEFAULT_CELL_LEN,
         false,
     );
 
     //third line
-    let cell_7 = Cell::new(cell_1.x(), cell_1.y() + 2. * DEFAULT_CELL_LEN, false);
-    let cell_8 = Cell::new(
-        cell_1.x() + DEFAULT_CELL_LEN,
-        cell_1.y() + 2. * DEFAULT_CELL_LEN,
+    let cell_6 = Cell::new(cell_0.x(), cell_0.y() + 2. * DEFAULT_CELL_LEN, false);
+    let cell_7 = Cell::new(
+        cell_0.x() + DEFAULT_CELL_LEN,
+        cell_0.y() + 2. * DEFAULT_CELL_LEN,
         false,
     );
-    let cell_9 = Cell::new(
-        cell_1.x() + 2. * DEFAULT_CELL_LEN,
-        cell_1.y() + 2. * DEFAULT_CELL_LEN,
+    let cell_8 = Cell::new(
+        cell_0.x() + 2. * DEFAULT_CELL_LEN,
+        cell_0.y() + 2. * DEFAULT_CELL_LEN,
         true,
     );
 
     let mut cells_grid = vec![
-        cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8, cell_9,
+        cell_0, cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8
     ];
 
     update_cells(&mut cells_grid);
 
-    assert!(!cells_grid[0].is_alive());
-    assert!(cells_grid[1].is_alive());
-    assert!(!cells_grid[2].is_alive());
-    assert!(!cells_grid[3].is_alive());
-    assert!(cells_grid[4].is_alive());
-    assert!(cells_grid[5].is_alive());
-    assert!(!cells_grid[6].is_alive());
-    assert!(!cells_grid[7].is_alive());
-    assert!(!cells_grid[8].is_alive());
+    // Cells that should not be alive
+    for i in [0,2,3,6,7,8] {
+        assert!(!cells_grid[i].is_alive());
+    }
+
+    // Cells that should be alive
+    for i in [1,4,5] {
+        assert!(cells_grid[i].is_alive());
+    }
 }
