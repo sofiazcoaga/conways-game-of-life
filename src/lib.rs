@@ -39,6 +39,10 @@ impl Cell {
     pub fn y(&self) -> f32 {
         self.start_y
     }
+
+    pub fn set_alive(&mut self, alive: bool) {
+        self.alive = alive;
+    }
 }
 
 // Function to generate the initial grid (none of the cells alive before the game starts)
