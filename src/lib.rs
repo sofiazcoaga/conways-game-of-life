@@ -5,15 +5,13 @@ pub const DEFAULT_CELL_LEN: f32 = 20.; // arbitrary value for now
 pub struct Cell {
     start_x: f32,
     start_y: f32,
-    len: f32,
     alive: bool,
 }
 impl Cell {
-    pub fn new(start_x: f32, start_y: f32, len: f32, alive: bool) -> Self {
+    pub fn new(start_x: f32, start_y: f32, alive: bool) -> Self {
         Cell {
             start_x,
             start_y,
-            len,
             alive,
         }
     }
@@ -56,7 +54,6 @@ pub fn generate_cells(screen_width: f32, screen_height: f32) -> Vec<Cell> {
         let new_cell = Cell {
             start_x: offset_x,
             start_y: offset_y,
-            len: DEFAULT_CELL_LEN,
             alive: false,
         };
         cells.push(new_cell);

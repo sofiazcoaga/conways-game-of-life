@@ -13,22 +13,11 @@ fn it_starts_cells_vector() {
 
 #[test]
 fn it_tells_whether_two_cells_are_adjacent() {
-    let first_cell = Cell::new(
-        DEFAULT_CELL_LEN * 2.,
-        DEFAULT_CELL_LEN,
-        DEFAULT_CELL_LEN,
-        true,
-    );
-    let adjacent_cell = Cell::new(
-        first_cell.x() + DEFAULT_CELL_LEN,
-        first_cell.y(),
-        DEFAULT_CELL_LEN,
-        false,
-    );
+    let first_cell = Cell::new(DEFAULT_CELL_LEN * 2., DEFAULT_CELL_LEN, true);
+    let adjacent_cell = Cell::new(first_cell.x() + DEFAULT_CELL_LEN, first_cell.y(), false);
     let not_adjacent_cell = Cell::new(
         first_cell.x() + 3. * DEFAULT_CELL_AREA,
         first_cell.y() + 3. * DEFAULT_CELL_AREA,
-        DEFAULT_CELL_LEN,
         true,
     );
 
@@ -45,57 +34,33 @@ fn it_updates_cells_grid() {
      */
 
     // first line
-    let cell_1 = Cell::new(0., 0., DEFAULT_CELL_LEN, true);
-    let cell_2 = Cell::new(
-        cell_1.x() + DEFAULT_CELL_LEN,
-        cell_1.y(),
-        DEFAULT_CELL_LEN,
-        false,
-    );
-    let cell_3 = Cell::new(
-        cell_1.x() + DEFAULT_CELL_LEN * 2.,
-        cell_1.y(),
-        DEFAULT_CELL_LEN,
-        true,
-    );
+    let cell_1 = Cell::new(0., 0., true);
+    let cell_2 = Cell::new(cell_1.x() + DEFAULT_CELL_LEN, cell_1.y(), false);
+    let cell_3 = Cell::new(cell_1.x() + DEFAULT_CELL_LEN * 2., cell_1.y(), true);
 
     // second line
-    let cell_4 = Cell::new(
-        cell_1.x(),
-        cell_1.y() + DEFAULT_CELL_LEN,
-        DEFAULT_CELL_LEN,
-        false,
-    );
+    let cell_4 = Cell::new(cell_1.x(), cell_1.y() + DEFAULT_CELL_LEN, false);
     let cell_5 = Cell::new(
         cell_1.x() + DEFAULT_CELL_LEN,
         cell_1.y() + DEFAULT_CELL_LEN,
-        DEFAULT_CELL_LEN,
         true,
     );
     let cell_6 = Cell::new(
         cell_1.x() + 2. * DEFAULT_CELL_LEN,
         cell_1.y() + DEFAULT_CELL_LEN,
-        DEFAULT_CELL_LEN,
         false,
     );
 
     //third line
-    let cell_7 = Cell::new(
-        cell_1.x(),
-        cell_1.y() + 2. * DEFAULT_CELL_LEN,
-        DEFAULT_CELL_LEN,
-        false,
-    );
+    let cell_7 = Cell::new(cell_1.x(), cell_1.y() + 2. * DEFAULT_CELL_LEN, false);
     let cell_8 = Cell::new(
         cell_1.x() + DEFAULT_CELL_LEN,
         cell_1.y() + 2. * DEFAULT_CELL_LEN,
-        DEFAULT_CELL_LEN,
         false,
     );
     let cell_9 = Cell::new(
         cell_1.x() + 2. * DEFAULT_CELL_LEN,
         cell_1.y() + 2. * DEFAULT_CELL_LEN,
-        DEFAULT_CELL_LEN,
         true,
     );
 
