@@ -1,6 +1,8 @@
-use conways_game_of_life::*;
+use conways_game_of_life::{Cell, DEFAULT_CELL_LEN, generate_cells, update_cells};
 use macroquad::prelude::*;
-use std::{thread, time};
+use std::{thread, time::Duration};
+
+const SCREEN_DELAY_IN_MILLIS: Duration = Duration::from_millis(50);
 
 #[macroquad::main("Conway's Game of Life")]
 async fn main() {
@@ -26,19 +28,25 @@ async fn main() {
             if is_mouse_button_pressed(MouseButton::Left) {
                 let mouse_position = mouse_position();
                 let mapped_position = map_mouse_position_to_cell(mouse_position);
-                initial_cells_position.push(Position(mapped_position.0, mapped_position.1));
+
                 //Update existing grid to include selected alive cells
                 let cell = cell_grid
                     .iter_mut()
-                    .find(|cell| cell.x() == mapped_position.0 && cell.y() == mapped_position.1)
-                    .unwrap();
-                cell.set_alive(true);
+                    .find(|cell| cell.x() == mapped_position.0 && cell.y() == mapped_position.1);
+
+                match cell {
+                    None => println!("Selected cell is out of scope"),
+                    Some(x) => {
+                        x.set_alive(true);
+                        initial_cells_position.push(Position(mapped_position.0, mapped_position.1))
+                    }
+                }
             } else if is_key_down(KeyCode::Enter) {
                 game_on = true;
             }
         } else {
             // Include a very brief pause to see the effects more clearly (slower)
-            thread::sleep(time::Duration::from_millis(10));
+            thread::sleep(SCREEN_DELAY_IN_MILLIS);
             draw_grid(&cell_grid);
             update_cells(&mut cell_grid);
         }
