@@ -3,7 +3,7 @@ const TEST_SCREEN_WIDTH: f32 = 200.;
 const TEST_SCREEN_HEIGHT: f32 = 200.;
 
 #[test]
-fn it_starts_cells_vector() {
+fn start_cells_vector_test() {
     let mut cells_grid: Vec<Cell> = Vec::new();
     assert_eq!(cells_grid.len(), 0);
     cells_grid = generate_cells(TEST_SCREEN_WIDTH, TEST_SCREEN_HEIGHT);
@@ -12,7 +12,7 @@ fn it_starts_cells_vector() {
 }
 
 #[test]
-fn it_tells_whether_two_cells_are_adjacent() {
+fn two_cells_are_adjacent_test() {
     let first_cell = Cell::new(DEFAULT_CELL_LEN * 2., DEFAULT_CELL_LEN, true);
     let adjacent_cell = Cell::new(first_cell.x() + DEFAULT_CELL_LEN, first_cell.y(), false);
     let not_adjacent_cell = Cell::new(
@@ -26,7 +26,7 @@ fn it_tells_whether_two_cells_are_adjacent() {
 }
 
 #[test]
-fn it_updates_cells_grid() {
+fn update_cells_grid_test() {
     /* Let's pretend we have a grid of nine cells starting from origin (0;0).
     |x| |x|                     | |x| |
     | |x| |  --> should become  | |x|x|
