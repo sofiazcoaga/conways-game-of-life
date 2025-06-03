@@ -16,7 +16,7 @@ This project contains a Makefile. From the root location run `make run` and it w
 - The game evolves on its own with the following rules:
     - For alive cells (painted):
         - With less than **two** alive neighbours (either horizontally, vertically or diagonally) -> cell dies by the next round
-        - With **two or three** alive neighbours -> cell survives by the next round (remains painted) 
+        - With **two or three** alive neighbours -> cell survives by the next round (remains painted)
         - With **more than three** alive neighbours -> cell dies by the next round
     - For dead cells (blank):
         - With **exactly three** alive neighbours -> cell is born by the next round
