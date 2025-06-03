@@ -1,6 +1,5 @@
 use conways_game_of_life::{GameCell, generate_cells, update_cells};
 use macroquad::prelude::*;
-use std::{thread, time::Duration};
 
 const SCREEN_WIDTH_IN_CELLS: u16 = 50;
 const SCREEN_HEIGHT_IN_CELLS: u16 = 50;
