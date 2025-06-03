@@ -1,9 +1,8 @@
 # Conway's Game of Life
-This project intends to be an MVP for the known [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). It is developed in Rust language and makes use of the `macroquad` library for games. 
+This project intends to be an MVP for the known [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). It is developed in Rust language and makes use of the `macroquad` library for games.
 
 # Requirements
-- cargo installed
-- rustc installed
+- [Rust toolchain installed](https://doc.rust-lang.org/book/ch01-01-installation.html)
 - make installed
 
 # How to run
