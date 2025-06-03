@@ -18,7 +18,7 @@ Run any of them from the project's root.
 # How to play
 - The user runs the game and an empty screen that reads "Choose some squares and press ENTER to start" appears.
 - The user chooses as many cells as desired from the initial empty screen.
-- The user presses the `enter`key to start the game.
+- The user presses the `enter` key to start the game.
 - The game evolves on its own with the following rules:
     - For alive cells (painted):
         - With less than **two** alive neighbours (either horizontally, vertically or diagonally) -> cell dies by the next round
