@@ -7,10 +7,11 @@ pub struct GameCell {
     alive: bool,
 }
 impl GameCell {
+    /// GameCell constructor, allows the creation of a new instance of this type.
     pub fn new(x: u16, y: u16, alive: bool) -> Self {
         GameCell { x, y, alive }
     }
-    // Initial function to calculate whether two cells are adjacent
+    /// Calculates whether two cells are adjacent (vertically, horizontally or diagonally)
     pub fn is_adjacent(&self, cell: &GameCell) -> bool {
         let distance_x = match self.x().cmp(&cell.x()) {
             Ordering::Greater => self.x() - cell.x(),
@@ -21,28 +22,32 @@ impl GameCell {
             _ => cell.y() - self.y(),
         };
         (distance_x.pow(2) + distance_y.pow(2)).isqrt() == 1
-
-
     }
 
+    /// Returns whether a cell is alive or not
     pub fn is_alive(&self) -> bool {
         self.alive
     }
+
+    /// Returns the x component of the cell's position
     pub fn x(&self) -> u16 {
         self.x
     }
+
+    /// Returns the y component of the cell's position
     pub fn y(&self) -> u16 {
         self.y
     }
 
+    /// Sets the alive field of the cell to a specified value
     pub fn set_alive(&mut self, alive: bool) {
         self.alive = alive;
     }
 }
 
-// Function to generate the initial grid (none of the cells alive before the game starts)
+/// Generates the initial grid (none of the cells alive before the game starts) based on the specified
+/// length and width for the board
 pub fn generate_cells(screen_width_in_cells: u16, screen_height_in_cells: u16) -> Vec<GameCell> {
-    // Calculate how many cells there will be based on the screen area and the default cell area
     let mut offset_x = 0;
     let mut offset_y = 0;
     let mut cells: Vec<GameCell> = Vec::new();
@@ -66,7 +71,7 @@ pub fn generate_cells(screen_width_in_cells: u16, screen_height_in_cells: u16) -
     cells
 }
 
-// Function to update current cells state (basically if they remain alive or not)
+/// Updates current cells state (basically if they remain alive or not)
 pub fn update_cells(cells: &mut Vec<GameCell>) {
     let cells_reference = cells.clone();
     for s in cells {
@@ -132,7 +137,7 @@ mod tests {
         let cell_4 = GameCell::new(1, 1, true);
         let cell_5 = GameCell::new(2, 1, false);
 
-        //third line
+        // third line
         let cell_6 = GameCell::new(0, 2, false);
         let cell_7 = GameCell::new(1, 2, false);
         let cell_8 = GameCell::new(2, 2, true);

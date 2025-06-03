@@ -40,7 +40,7 @@ async fn main() {
             let mouse_position = mouse_position();
             let mapped_position = map_mouse_position_to_cell(mouse_position);
 
-            //Update existing grid to include selected alive cells
+            // Update existing grid to include selected alive cells
             let cell = cell_grid
                 .iter_mut()
                 .find(|cell| cell.x() == mapped_position.0 && cell.y() == mapped_position.1);
@@ -68,11 +68,14 @@ async fn main() {
 #[derive(Clone, Copy)]
 struct Position(u16, u16);
 
+/// Given a mouse position map it to its cell's relative position
 fn map_mouse_position_to_cell(mouse_position: (f32, f32)) -> (u16, u16) {
     let x = (mouse_position.0 - (mouse_position.0 % DEFAULT_CELL_LEN)) / DEFAULT_CELL_LEN;
     let y = (mouse_position.1 - (mouse_position.1 % DEFAULT_CELL_LEN)) / DEFAULT_CELL_LEN;
     (x as u16, y as u16)
 }
+
+/// Draw every cell that is alive in the grid
 fn draw_grid(grid: &Vec<GameCell>, cell_len: f32) {
     for s in grid {
         if s.is_alive() {
@@ -82,6 +85,7 @@ fn draw_grid(grid: &Vec<GameCell>, cell_len: f32) {
     }
 }
 
+/// Given a relative cell's position map it to screen absolute position
 fn map_cell_to_position(cell_pos: (u16, u16), cell_len: f32) -> (f32, f32) {
     (cell_pos.0 as f32 * cell_len, cell_pos.1 as f32 * cell_len)
 }
