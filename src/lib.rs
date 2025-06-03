@@ -1,39 +1,36 @@
-pub const DEFAULT_CELL_AREA: f32 = 400.; // arbitrary value for now
-pub const DEFAULT_CELL_LEN: f32 = 20.; // arbitrary value for now
+use std::cmp::Ordering;
 
 #[derive(Clone, Copy, Debug)]
 pub struct GameCell {
-    start_x: f32,
-    start_y: f32,
+    x: u16,
+    y: u16,
     alive: bool,
 }
 impl GameCell {
-    pub fn new(start_x: f32, start_y: f32, alive: bool) -> Self {
-        GameCell {
-            start_x,
-            start_y,
-            alive,
-        }
+    pub fn new(x: u16, y: u16, alive: bool) -> Self {
+        GameCell { x, y, alive }
     }
-    // Initial function to calculate whether two cells are adjacent -- TODO make smaller
+    // Initial function to calculate whether two cells are adjacent
     pub fn is_adjacent(&self, cell: &GameCell) -> bool {
-        // This is Pythagoras which finds the distance from a cell's start
-        // point to another cell's start point that is diagonally placed
-        let max_allowed_distance = (DEFAULT_CELL_LEN.powi(2) * 2.0).sqrt();
-        // Calculates the distance between the two cells starting points
-        let distance = ((cell.x() - self.x()).powi(2) + (cell.y() - self.y()).powi(2)).sqrt();
-        // Distance can either be the max distance or the default edge len if the adjacent cell is not diagonally placed
-        distance.eq(&DEFAULT_CELL_LEN) || distance.eq(&max_allowed_distance)
+        let distance_x = match self.x().cmp(&cell.x()) {
+            Ordering::Greater => self.x() - cell.x(),
+            _ => cell.x() - self.x(),
+        };
+        let distance_y = match self.y().cmp(&cell.y()) {
+            Ordering::Greater => self.y() - cell.y(),
+            _ => cell.y() - self.y(),
+        };
+        (distance_x.pow(2) + distance_y.pow(2)).isqrt() == 1
     }
 
     pub fn is_alive(&self) -> bool {
         self.alive
     }
-    pub fn x(&self) -> f32 {
-        self.start_x
+    pub fn x(&self) -> u16 {
+        self.x
     }
-    pub fn y(&self) -> f32 {
-        self.start_y
+    pub fn y(&self) -> u16 {
+        self.y
     }
 
     pub fn set_alive(&mut self, alive: bool) {
@@ -42,26 +39,26 @@ impl GameCell {
 }
 
 // Function to generate the initial grid (none of the cells alive before the game starts)
-pub fn generate_cells(screen_width: f32, screen_height: f32) -> Vec<GameCell> {
+pub fn generate_cells(screen_width_in_cells: u16, screen_height_in_cells: u16) -> Vec<GameCell> {
     // Calculate how many cells there will be based on the screen area and the default cell area
-    let cells_amount = ((screen_height * screen_width) / DEFAULT_CELL_AREA) as i32;
-    let mut offset_x = 0.;
-    let mut offset_y = 0.;
+    let mut offset_x = 0;
+    let mut offset_y = 0;
     let mut cells: Vec<GameCell> = Vec::new();
+    let cells_amount = screen_height_in_cells * screen_width_in_cells;
 
     for _ in 0..cells_amount {
         let new_cell = GameCell {
-            start_x: offset_x,
-            start_y: offset_y,
+            x: offset_x,
+            y: offset_y,
             alive: false,
         };
         cells.push(new_cell);
 
-        if offset_x == screen_width - DEFAULT_CELL_LEN {
-            offset_x = 0.;
-            offset_y += DEFAULT_CELL_LEN;
+        if offset_x == screen_width_in_cells - 1 {
+            offset_x = 0;
+            offset_y += 1;
         } else {
-            offset_x += DEFAULT_CELL_LEN;
+            offset_x += 1;
         }
     }
     cells
@@ -92,27 +89,23 @@ pub fn update_cells(cells: &mut Vec<GameCell>) {
 mod tests {
     use super::*;
 
-    const TEST_SCREEN_WIDTH: f32 = 200.;
-    const TEST_SCREEN_HEIGHT: f32 = 200.;
+    const TEST_SCREEN_WIDTH: u16 = 20;
+    const TEST_SCREEN_HEIGHT: u16 = 20;
 
     #[test]
     fn start_cells_vector_test() {
         let mut cells_grid: Vec<GameCell> = Vec::new();
         assert_eq!(cells_grid.len(), 0);
         cells_grid = generate_cells(TEST_SCREEN_WIDTH, TEST_SCREEN_HEIGHT);
-        let cells_amount = (TEST_SCREEN_WIDTH * TEST_SCREEN_HEIGHT) / DEFAULT_CELL_AREA;
+        let cells_amount = TEST_SCREEN_WIDTH * TEST_SCREEN_HEIGHT;
         assert_eq!(cells_grid.len(), cells_amount as usize);
     }
 
     #[test]
     fn two_cells_are_adjacent_test() {
-        let first_cell = GameCell::new(DEFAULT_CELL_LEN * 2., DEFAULT_CELL_LEN, true);
-        let adjacent_cell = GameCell::new(first_cell.x() + DEFAULT_CELL_LEN, first_cell.y(), false);
-        let not_adjacent_cell = GameCell::new(
-            first_cell.x() + 3. * DEFAULT_CELL_AREA,
-            first_cell.y() + 3. * DEFAULT_CELL_AREA,
-            true,
-        );
+        let first_cell = GameCell::new(0, 0, true);
+        let adjacent_cell = GameCell::new(1, 0, false);
+        let not_adjacent_cell = GameCell::new(3, 2, true);
 
         assert!(first_cell.is_adjacent(&adjacent_cell));
         assert!(!first_cell.is_adjacent(&not_adjacent_cell));
@@ -132,35 +125,19 @@ mod tests {
          */
 
         // first line
-        let cell_0 = GameCell::new(0., 0., true);
-        let cell_1 = GameCell::new(cell_0.x() + DEFAULT_CELL_LEN, cell_0.y(), false);
-        let cell_2 = GameCell::new(cell_0.x() + DEFAULT_CELL_LEN * 2., cell_0.y(), true);
+        let cell_0 = GameCell::new(0, 0, true);
+        let cell_1 = GameCell::new(1, 0, false);
+        let cell_2 = GameCell::new(2, 0, true);
 
         // second line
-        let cell_3 = GameCell::new(cell_0.x(), cell_0.y() + DEFAULT_CELL_LEN, false);
-        let cell_4 = GameCell::new(
-            cell_0.x() + DEFAULT_CELL_LEN,
-            cell_0.y() + DEFAULT_CELL_LEN,
-            true,
-        );
-        let cell_5 = GameCell::new(
-            cell_0.x() + 2. * DEFAULT_CELL_LEN,
-            cell_0.y() + DEFAULT_CELL_LEN,
-            false,
-        );
+        let cell_3 = GameCell::new(0, 1, false);
+        let cell_4 = GameCell::new(1, 1, true);
+        let cell_5 = GameCell::new(2, 1, false);
 
         //third line
-        let cell_6 = GameCell::new(cell_0.x(), cell_0.y() + 2. * DEFAULT_CELL_LEN, false);
-        let cell_7 = GameCell::new(
-            cell_0.x() + DEFAULT_CELL_LEN,
-            cell_0.y() + 2. * DEFAULT_CELL_LEN,
-            false,
-        );
-        let cell_8 = GameCell::new(
-            cell_0.x() + 2. * DEFAULT_CELL_LEN,
-            cell_0.y() + 2. * DEFAULT_CELL_LEN,
-            true,
-        );
+        let cell_6 = GameCell::new(0, 2, false);
+        let cell_7 = GameCell::new(1, 2, false);
+        let cell_8 = GameCell::new(2, 2, true);
 
         let mut cells_grid = vec![
             cell_0, cell_1, cell_2, cell_3, cell_4, cell_5, cell_6, cell_7, cell_8,
