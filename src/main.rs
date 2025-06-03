@@ -7,6 +7,7 @@ const DEFAULT_CELL_LEN: f32 = 20.;
 
 #[macroquad::main("Conway's Game of Life")]
 async fn main() {
+    request_new_screen_size(SCREEN_WIDTH_IN_CELLS as f32 * DEFAULT_CELL_LEN, SCREEN_HEIGHT_IN_CELLS as f32 * DEFAULT_CELL_LEN);
     let mut game_on = false;
     let mut cell_grid = generate_cells(SCREEN_WIDTH_IN_CELLS, SCREEN_HEIGHT_IN_CELLS);
     let mut initial_cells_position: Vec<Position> = Vec::new();

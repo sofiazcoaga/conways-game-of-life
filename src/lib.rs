@@ -49,11 +49,11 @@ impl GameCell {
 
 /// Generates the initial grid (none of the cells alive before the game starts) based on the specified
 /// length and width for the board
-pub fn generate_cells(screen_width_in_cells: u16, screen_height_in_cells: u16) -> Vec<GameCell> {
+pub fn generate_cells(cells_width: u16, cells_height: u16) -> Vec<GameCell> {
     let mut offset_x = 0;
     let mut offset_y = 0;
     let mut cells: Vec<GameCell> = Vec::new();
-    let cells_amount = screen_height_in_cells * screen_width_in_cells;
+    let cells_amount = cells_height * cells_width;
 
     for _ in 0..cells_amount {
         let new_cell = GameCell {
@@ -63,7 +63,7 @@ pub fn generate_cells(screen_width_in_cells: u16, screen_height_in_cells: u16) -
         };
         cells.push(new_cell);
 
-        if offset_x == screen_width_in_cells - 1 {
+        if offset_x == cells_width - 1 {
             offset_x = 0;
             offset_y += 1;
         } else {
