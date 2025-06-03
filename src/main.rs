@@ -1,4 +1,4 @@
-use conways_game_of_life::{Cell, DEFAULT_CELL_LEN, generate_cells, update_cells};
+use conways_game_of_life::{DEFAULT_CELL_LEN, GameCell, generate_cells, update_cells};
 use macroquad::prelude::*;
 use std::{thread, time::Duration};
 
@@ -67,7 +67,7 @@ fn map_mouse_position_to_cell(mouse_position: (f32, f32)) -> (f32, f32) {
     let y = mouse_position.1 - (mouse_position.1 % DEFAULT_CELL_LEN);
     (x, y)
 }
-fn draw_grid(grid: &Vec<Cell>) {
+fn draw_grid(grid: &Vec<GameCell>) {
     for s in grid {
         if s.is_alive() {
             draw_rectangle(s.x(), s.y(), DEFAULT_CELL_LEN, DEFAULT_CELL_LEN, BLUE);
