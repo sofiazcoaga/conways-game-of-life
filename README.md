@@ -12,7 +12,8 @@ This project contains a Makefile that allows the user to build and run the game.
 - `make build`: compiles the game
 - `make test`: executes the unit tests for the game logic.
 - `make clean`: deletes the target directory.
-Run any of them from the project's root. 
+
+Run any of them from the project's root.
 
 # How to play
 - The user runs the game and an empty screen that reads "Choose some squares and press ENTER to start" appears.
