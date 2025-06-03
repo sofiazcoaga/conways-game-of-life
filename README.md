@@ -7,7 +7,12 @@ This project intends to be an MVP for the known [Game of Life](https://en.wikipe
 - make installed
 
 # How to run
-This project contains a Makefile. From the root location run `make run` and it will compile the game and execute it.
+This project contains a Makefile that allows the user to build and run the game. The commands provided are:
+- `make run`: compiles the game and runs it.
+- `make build`: compiles the game
+- `make test`: executes the unit tests for the game logic.
+- `make clean`: deletes the target directory.
+Run any of them from the project's root. 
 
 # How to play
 - The user runs the game and an empty screen that reads "Choose some squares and press ENTER to start" appears.
