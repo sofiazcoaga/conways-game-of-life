@@ -23,6 +23,6 @@ jobs:
       - name: Build and Run tests
         run: |
           cargo build
-          cargo clippy
+          cargo clippy -- -D warnings
           cargo fmt --all -- --check
           cargo test
