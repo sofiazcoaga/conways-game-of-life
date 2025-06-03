@@ -1,4 +1,4 @@
-use conways_game_of_life::{GameCell, DEFAULT_CELL_LEN, generate_cells, update_cells};
+use conways_game_of_life::{DEFAULT_CELL_LEN, GameCell, generate_cells, update_cells};
 use macroquad::prelude::*;
 use std::{thread, time::Duration};
 
