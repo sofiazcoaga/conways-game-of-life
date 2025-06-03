@@ -40,5 +40,5 @@ If this project was to be developed deeper in the future, possible lines of acti
 - Implement the possibility to restart the game.
 
 # The project structure:
-`src/lib.rs` contains all the code related to the logic of the game.
-`src/main.rs` contains all the code related to the graphic interface and the execution of the game.
+- `src/lib.rs` contains all the code related to the logic of the game.
+- `src/main.rs` contains all the code related to the graphic interface and the execution of the game.
