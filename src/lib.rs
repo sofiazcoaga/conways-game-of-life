@@ -21,6 +21,8 @@ impl GameCell {
             _ => cell.y() - self.y(),
         };
         (distance_x.pow(2) + distance_y.pow(2)).isqrt() == 1
+
+
     }
 
     pub fn is_alive(&self) -> bool {
@@ -73,15 +75,11 @@ pub fn update_cells(cells: &mut Vec<GameCell>) {
             .iter()
             .filter(|x| s.is_adjacent(x) && x.is_alive())
             .count();
-        if s.is_alive() {
-            match neighbors_amount {
-                0..2 => s.alive = false, // Less than two alive neighbours -> cell dies
-                2..=3 => s.alive = true, // Two or three alive neighbours -> cell lives
-                4.. => s.alive = false,  // More than three alive neighbours -> cell dies
-            }
-        } else if !s.is_alive() && neighbors_amount == 3 {
-            s.alive = true;
-        }
+        match (s.is_alive(), neighbors_amount) {
+            (true, 2..=3) => {} // A live cell with two or three neighbours is kept alive
+            (false, 3) => s.alive = true, // A dead cell with three neighbours is revived
+            _ => s.alive = false, // Any other case (dead or alive) cell will be dead
+        };
     }
 }
 
