@@ -1,5 +1,3 @@
-use std::cmp::Ordering;
-
 #[derive(Clone, Copy, Debug)]
 pub struct GameCell {
     x: u16,
@@ -13,15 +11,19 @@ impl GameCell {
     }
     /// Calculates whether two cells are adjacent (vertically, horizontally or diagonally)
     pub fn is_adjacent(&self, cell: &GameCell) -> bool {
-        let distance_x = match self.x().cmp(&cell.x()) {
-            Ordering::Greater => self.x() - cell.x(),
-            _ => cell.x() - self.x(),
-        };
-        let distance_y = match self.y().cmp(&cell.y()) {
-            Ordering::Greater => self.y() - cell.y(),
-            _ => cell.y() - self.y(),
-        };
-        (distance_x.pow(2) + distance_y.pow(2)).isqrt() == 1
+        // Turn x,y to i16 to avoid sub problems
+        let cell_x = cell.x() as i16;
+        let cell_y = cell.y() as i16;
+        let self_x = self.x() as i16;
+        let self_y = self.y() as i16;
+        cell_x == self_x && cell_y == (self_y + 1)            // Below
+            || cell_x == self_x && cell_y == (self_y - 1 )    // Above
+            || cell_x == (self_x + 1) && cell_y == self_y     // Horizontal right
+            || cell_x == (self_x - 1) && cell_y == self_y     // Horizontal left
+            || cell_x == (self_x + 1) && cell_y == (self_y + 1) // Diagonal right downwards
+            || cell_x == (self_x - 1) && cell_y == (self_y + 1) // Diagonal left downwards
+            || cell_x == (self_x + 1) && cell_y == (self_y - 1) // Diagonal right upwards
+            || cell_x == (self_x - 1) && cell_y == (self_y - 1) // Diagonal left upwards
     }
 
     /// Returns whether a cell is alive or not
