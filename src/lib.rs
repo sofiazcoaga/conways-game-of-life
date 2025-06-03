@@ -10,12 +10,14 @@ impl GameCell {
         GameCell { x, y, alive }
     }
     /// Calculates whether two cells are adjacent (vertically, horizontally or diagonally)
+    #[allow(clippy::nonminimal_bool)]
     pub fn is_adjacent(&self, cell: &GameCell) -> bool {
         // Turn x,y to i16 to avoid sub problems
         let cell_x = cell.x() as i16;
         let cell_y = cell.y() as i16;
         let self_x = self.x() as i16;
         let self_y = self.y() as i16;
+
         cell_x == self_x && cell_y == (self_y + 1)            // Below
             || cell_x == self_x && cell_y == (self_y - 1 )    // Above
             || cell_x == (self_x + 1) && cell_y == self_y     // Horizontal right
